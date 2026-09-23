@@ -172,13 +172,7 @@
   .dancer.br { bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); right: 12px; }
   /* the dancing kitten has a white background: multiply lets the pink show through */
   .dancer { mix-blend-mode: multiply; }
-  .dancer img { transform-origin: 50% 90%; animation: bop .45s ease-in-out infinite alternate; }
-  .dancer.tr img, .dancer.br img { animation-name: bopFlip; animation-delay: .22s; }
-  @keyframes bop     { from { transform: rotate(-10deg) translateY(0); }  to { transform: rotate(10deg) translateY(-6px); } }
-  @keyframes bopFlip { from { transform: scaleX(-1) rotate(-10deg) translateY(0); } to { transform: scaleX(-1) rotate(10deg) translateY(-6px); } }
-  /* the kissing cat leans in for a smooch, over and over */
-  .kiss.up img { animation: leanIn 1.4s ease-in-out .9s infinite; }
-  @keyframes leanIn { 0%, 55%, 100% { transform: scale(1); } 30% { transform: scale(1.1) rotate(-2deg); } }
+  .dancer.tr img, .dancer.br img { transform: scaleX(-1); }
 
   /* stand-ins until the real GIFs are uploaded */
   .standin { display: grid; place-items: center; aspect-ratio: 1; line-height: 1; }
@@ -211,7 +205,7 @@
   .again.show { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    .box, .choice, .kiss .standin, .dancer .standin, .kiss.up img, .dancer img { animation: none; }
+    .box, .choice, .kiss .standin, .dancer .standin { animation: none; }
     .kiss, .lid, .dancer { transition-duration: .01s; }
   }
 
@@ -246,11 +240,11 @@
   <p class="tap-hint" id="hint">tap to open 🩷</p>
 </section>
 
-<div class="kiss" id="kiss"><img src="kiss.jpg" alt="Kissing kitten"></div>
-<div class="dancer tl"><img src="dance.jpg" alt=""></div>
-<div class="dancer tr"><img src="dance.jpg" alt=""></div>
-<div class="dancer bl"><img src="dance.jpg" alt=""></div>
-<div class="dancer br"><img src="dance.jpg" alt=""></div>
+<div class="kiss" id="kiss"><img src="kiss.gif" alt="Kissing kitten"></div>
+<div class="dancer tl"><img src="dance.gif" alt=""></div>
+<div class="dancer tr"><img src="dance.gif" alt=""></div>
+<div class="dancer bl"><img src="dance.gif" alt=""></div>
+<div class="dancer br"><img src="dance.gif" alt=""></div>
 
 <button class="again" id="again" type="button" hidden>again 🩷</button>
 
