@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Caveat:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff7f5;
+    --bg-2: #ffe9e6;
+    --card: #ffffff;
+    --ink: #3a2230;
+    --ink-soft: #7a5a68;
+    --accent: #e0457b;
+    --accent-2: #ff8fab;
+    --line: #f3d3d9;
+    --shadow: 0 10px 30px rgba(224, 69, 123, 0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1c1218;
+      --bg-2: #2a1a23;
+      --card: #2c1d26;
+      --ink: #fbe9ef;
+      --ink-soft: #c9a7b6;
+      --accent: #ff6b9a;
+      --accent-2: #ff9fbd;
+      --line: #452c39;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1c1218;
+    --bg-2: #2a1a23;
+    --card: #2c1d26;
+    --ink: #fbe9ef;
+    --ink-soft: #c9a7b6;
+    --accent: #ff6b9a;
+    --accent-2: #ff9fbd;
+    --line: #452c39;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* floating hearts */
+  #hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .heart {
+    position: absolute;
+    bottom: -40px;
+    color: var(--accent-2);
+    opacity: 0.55;
+    animation: floatUp linear forwards;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    to { transform: translateY(-115vh) rotate(25deg); opacity: 0; }
+  }
+
+  main { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
+  section { padding: 72px 0 24px; }
+
+  .hero {
+    min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding-top: 40px;
+  }
+  .hero .eyebrow {
+    font-family: "Caveat", cursive;
+    font-size: 1.6rem;
+    color: var(--accent);
+  }
+  .hero h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(2.8rem, 11vw, 5.5rem);
+    line-height: 1.05;
+    margin: 8px 0 18px;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero p { color: var(--ink-soft); max-width: 30ch; font-size: 1.1rem; }
+  .scroll-hint {
+    margin-top: 48px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: translateY(6px); } }
+
+  h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* counter */
+  .counter {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .counter div {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 6px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .counter b {
+    display: block;
+    font-family: "Fraunces", serif;
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .counter span { font-size: 0.8rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+  .since { text-align: center; color: var(--ink-soft); margin-top: 14px; font-size: 0.95rem; }
+
+  /* reasons */
+  .reason-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 36px 28px;
+    min-height: 190px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .reason-num { font-family: "Caveat", cursive; color: var(--accent); font-size: 1.4rem; }
+  .reason-text {
+    font-family: "Fraunces", serif;
+    font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .reason-text.swap { opacity: 0; transform: translateY(8px); }
+
+  .btn {
+    font: inherit;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 12px 26px;
+    background: var(--accent);
+    color: #fff;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 6px 18px rgba(224, 69, 123, 0.3);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: scale(0.97); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); box-shadow: none; }
+  .center { display: flex; justify-content: center; margin-top: 20px; gap: 12px; flex-wrap: wrap; }
+
+  /* letter */
+  .letter {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 36px 28px;
+    box-shadow: var(--shadow);
+    background-image: repeating-linear-gradient(transparent 0 35px, var(--line) 35px 36px);
+    background-position: 0 58px;
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    line-height: 36px;
+    transform: rotate(-0.6deg);
+  }
+  .letter p + p { margin-top: 36px; }
+  .letter .sign { text-align: right; color: var(--accent); }
+
+  /* question */
+  .question { text-align: center; }
+  .question-area {
+    position: relative;
+    height: 160px;
+    display: flex; justify-content: center; align-items: center; gap: 16px;
+  }
+  #noBtn { position: relative; transition: left 0.2s, top 0.2s; }
+  .answer {
+    font-family: "Fraunces", serif;
+    font-size: 1.6rem;
+    color: var(--accent);
+    display: none;
+    animation: pop 0.5s ease;
+  }
+  @keyframes pop { from { transform: scale(0.6); opacity: 0; } }
+
+  footer { text-align: center; color: var(--ink-soft); font-size: 0.9rem; padding-top: 40px; }
+
+  .theme-toggle {
+    position: fixed; top: 14px; right: 14px; z-index: 5;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    cursor: pointer; font-size: 1.1rem;
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heart, .scroll-hint { animation: none; display: none; }
+    .reveal { opacity: 1; transform: none; }
+  }
+  @media (max-width: 420px) {
+    .counter { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div id="hearts" aria-hidden="true"></div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☾</button>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">hey you,</div>
+    <h1>Hi, <em id="herName">Beautiful</em></h1>
+    <p id="tagline">I made you a little corner of the internet. Scroll down ♡</p>
+    <a class="scroll-hint" href="#together">↓</a>
+  </section>
+
+  <section id="together" class="reveal">
+    <h2>Us, so far</h2>
+    <div class="counter">
+      <div><b id="cDays">0</b><span>days</span></div>
+      <div><b id="cHours">0</b><span>hours</span></div>
+      <div><b id="cMins">0</b><span>minutes</span></div>
+      <div><b id="cSecs">0</b><span>seconds</span></div>
+    </div>
+    <p class="since" id="sinceText"></p>
+  </section>
+
+  <section class="reveal">
+    <h2>Reasons I adore you</h2>
+    <div class="reason-card">
+      <div class="reason-num" id="reasonNum">#1</div>
+      <div class="reason-text" id="reasonText"></div>
+    </div>
+    <div class="center">
+      <button class="btn" id="nextReason">Tell me another</button>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>A little note</h2>
+    <div class="letter" id="letter"></div>
+  </section>
+
+  <section class="question reveal">
+    <h2 id="questionText">Do you love me?</h2>
+    <div class="question-area" id="questionArea">
+      <button class="btn" id="yesBtn">Yes ♡</button>
+      <button class="btn ghost" id="noBtn">No</button>
+    </div>
+    <div class="answer" id="answer">I knew it. I love you too ♡</div>
+  </section>
+
+  <footer id="footer"></footer>
+</main>
+
+<script>
+  /* ============================================================
+     EDIT THIS PART — make it yours
+     ============================================================ */
+  const CONFIG = {
+    herName: "Beautiful",                 // her name or nickname
+    yourName: "Me",                       // how you sign off
+    togetherSince: "2025-02-14T00:00:00", // when you two started
+    tagline: "I made you a little corner of the internet. Scroll down ♡",
+    reasons: [
+      "The way you laugh at your own jokes before you finish them.",
+      "You make ordinary days feel like something worth remembering.",
+      "How you always know when something's off with me.",
+      "Your good-morning texts are my favorite notification.",
+      "You're the softest, strongest person I know.",
+      "The way you look at me when you think I'm not paying attention.",
+      "You make any place feel like home.",
+      "You're my favorite person to do absolutely nothing with.",
+      "Your hugs fix things words can't.",
+      "Honestly? Everything. I could keep going forever."
+    ],
+    letter: [
+      "Hey you,",
+      "I just wanted you to have something that's only yours. A place you can come back to whenever you need a reminder of how much you mean to me.",
+      "Thank you for being you. I'm so lucky I get to be yours.",
+    ],
+    question: "Do you love me?",
+    answer: "I knew it. I love you too ♡",
+  };
+  /* ============================================================ */
+
+  const $ = (id) => document.getElementById(id);
+
+  // fill content
+  $("herName").textContent = CONFIG.herName;
+  $("tagline").textContent = CONFIG.tagline;
+  $("questionText").textContent = CONFIG.question;
+  $("answer").textContent = CONFIG.answer;
+  $("footer").textContent = `made with love, by ${CONFIG.yourName} ♡`;
+  document.title = `For ${CONFIG.herName}`;
+
+  const letter = $("letter");
+  CONFIG.letter.forEach((line) => {
+    const p = document.createElement("p");
+    p.textContent = line;
+    letter.appendChild(p);
+  });
+  const sign = document.createElement("p");
+  sign.className = "sign";
+  sign.textContent = `— always yours, ${CONFIG.yourName}`;
+  letter.appendChild(sign);
+
+  // together counter
+  const start = new Date(CONFIG.togetherSince);
+  $("sinceText").textContent = "since " + start.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  function tick() {
+    let diff = Math.max(0, Math.floor((Date.now() - start) / 1000));
+    $("cDays").textContent = Math.floor(diff / 86400).toLocaleString();
+    $("cHours").textContent = Math.floor((diff % 86400) / 3600);
+    $("cMins").textContent = Math.floor((diff % 3600) / 60);
+    $("cSecs").textContent = diff % 60;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // reasons
+  let idx = 0;
+  function showReason() {
+    const t = $("reasonText");
+    t.classList.add("swap");
+    setTimeout(() => {
+      t.textContent = CONFIG.reasons[idx];
+      $("reasonNum").textContent = `#${idx + 1}`;
+      t.classList.remove("swap");
+    }, 200);
+  }
+  $("reasonText").textContent = CONFIG.reasons[0];
+  $("nextReason").addEventListener("click", () => {
+    idx = (idx + 1) % CONFIG.reasons.length;
+    showReason();
+    burst(6);
+  });
+
+  // the "No" button runs away
+  const noBtn = $("noBtn");
+  const area = $("questionArea");
+  function dodge() {
+    const a = area.getBoundingClientRect();
+    const b = noBtn.getBoundingClientRect();
+    const maxX = (a.width - b.width) / 2;
+    const maxY = (a.height - b.height) / 2;
+    noBtn.style.left = (Math.random() * 2 - 1) * maxX + "px";
+    noBtn.style.top = (Math.random() * 2 - 1) * maxY + "px";
+  }
+  noBtn.addEventListener("mouseenter", dodge);
+  noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodge(); }, { passive: false });
+  noBtn.addEventListener("click", (e) => { e.preventDefault(); dodge(); });
+
+  $("yesBtn").addEventListener("click", () => {
+    area.style.display = "none";
+    $("answer").style.display = "block";
+    burst(40);
+  });
+
+  // hearts
+  const heartsEl = $("hearts");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function spawnHeart() {
+    if (reduced) return;
+    const h = document.createElement("span");
+    h.className = "heart";
+    h.textContent = Math.random() > 0.3 ? "♥" : "♡";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = 12 + Math.random() * 22 + "px";
+    const dur = 7 + Math.random() * 7;
+    h.style.animationDuration = dur + "s";
+    heartsEl.appendChild(h);
+    setTimeout(() => h.remove(), dur * 1000);
+  }
+  function burst(n) {
+    for (let i = 0; i < n; i++) setTimeout(spawnHeart, i * 40);
+  }
+  setInterval(spawnHeart, 900);
+  burst(8);
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  // theme toggle
+  const root = document.documentElement;
+  function currentDark() {
+    const t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function syncIcon() { $("themeToggle").textContent = currentDark() ? "☀" : "☾"; }
+  try { const saved = localStorage.getItem("theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  syncIcon();
+  $("themeToggle").addEventListener("click", () => {
+    const next = currentDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    syncIcon();
+  });
+</script>
+</body>
+</html>
