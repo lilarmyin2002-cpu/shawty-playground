@@ -2,422 +2,350 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#fdeef2">
+<style>body { margin: 0; } [hidden] { display: none !important; }</style>
+<title>For Praebooboo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Caveat:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Sniglet:wght@400;800&display=swap">
 <style>
+  /* One deliberate look: soft blush pink, same on light or dark phones. */
   :root {
-    --bg: #fff7f5;
-    --bg-2: #ffe9e6;
-    --card: #ffffff;
-    --ink: #3a2230;
-    --ink-soft: #7a5a68;
-    --accent: #e0457b;
-    --accent-2: #ff8fab;
-    --line: #f3d3d9;
-    --shadow: 0 10px 30px rgba(224, 69, 123, 0.12);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #1c1218;
-      --bg-2: #2a1a23;
-      --card: #2c1d26;
-      --ink: #fbe9ef;
-      --ink-soft: #c9a7b6;
-      --accent: #ff6b9a;
-      --accent-2: #ff9fbd;
-      --line: #452c39;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #1c1218;
-    --bg-2: #2a1a23;
-    --card: #2c1d26;
-    --ink: #fbe9ef;
-    --ink-soft: #c9a7b6;
-    --accent: #ff6b9a;
-    --accent-2: #ff9fbd;
-    --line: #452c39;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --ground: #fdeef2;
+    --ground-2: #fbdde6;
+    --petal: #f7b9cb;
+    --rose: #e0618c;
+    --rose-deep: #c2456f;
+    --plum: #4b2334;
+    --plum-soft: #8a5a6c;
+    --white: #fffafb;
+    --ribbon: #fff4f7;
+    color-scheme: light;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html, body { height: 100%; }
   body {
-    font-family: "Inter", system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* floating hearts */
-  #hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .heart {
-    position: absolute;
-    bottom: -40px;
-    color: var(--accent-2);
-    opacity: 0.55;
-    animation: floatUp linear forwards;
+    background:
+      radial-gradient(120% 70% at 50% 0%, var(--ground) 0%, var(--ground-2) 100%) fixed,
+      var(--ground);
+    color: var(--plum);
+    font-family: "Fredoka", "Avenir Next", system-ui, sans-serif;
+    font-size: 17px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
     user-select: none;
-  }
-  @keyframes floatUp {
-    to { transform: translateY(-115vh) rotate(25deg); opacity: 0; }
+    touch-action: manipulation;
   }
 
-  main { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
-  section { padding: 72px 0 24px; }
+  .screen {
+    position: fixed;
+    inset: 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 24px) 20px calc(env(safe-area-inset-bottom, 0px) + 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .screen.away { opacity: 0; transform: scale(.96); pointer-events: none; }
 
-  .hero {
-    min-height: 92vh;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center;
-    padding-top: 40px;
-  }
-  .hero .eyebrow {
-    font-family: "Caveat", cursive;
-    font-size: 1.6rem;
-    color: var(--accent);
-  }
-  .hero h1 {
-    font-family: "Fraunces", serif;
-    font-weight: 600;
-    font-size: clamp(2.8rem, 11vw, 5.5rem);
+  /* ---------- page 1: greeting ---------- */
+  .greet { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 32px; }
+  .greet h1 {
+    font-family: "Sniglet", "Fredoka", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.3rem, 10vw, 3.2rem);
     line-height: 1.05;
-    margin: 8px 0 18px;
+    color: var(--rose-deep);
+    text-wrap: balance;
+    margin: 0;
   }
-  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
-  .hero p { color: var(--ink-soft); max-width: 30ch; font-size: 1.1rem; }
-  .scroll-hint {
-    margin-top: 48px;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-    text-decoration: none;
-    animation: bob 2s ease-in-out infinite;
-  }
-  @keyframes bob { 50% { transform: translateY(6px); } }
-
-  h2 {
-    font-family: "Fraunces", serif;
-    font-weight: 600;
-    font-size: clamp(1.8rem, 6vw, 2.4rem);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  /* counter */
-  .counter {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-  }
-  .counter div {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 18px 6px;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
-  .counter b {
+  .greet h1 span {
     display: block;
-    font-family: "Fraunces", serif;
-    font-size: clamp(1.5rem, 6vw, 2.2rem);
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-  }
-  .counter span { font-size: 0.8rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
-  .since { text-align: center; color: var(--ink-soft); margin-top: 14px; font-size: 0.95rem; }
-
-  /* reasons */
-  .reason-card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 36px 28px;
-    min-height: 190px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
-  .reason-num { font-family: "Caveat", cursive; color: var(--accent); font-size: 1.4rem; }
-  .reason-text {
-    font-family: "Fraunces", serif;
-    font-size: clamp(1.25rem, 4.5vw, 1.6rem);
-    transition: opacity 0.25s, transform 0.25s;
-  }
-  .reason-text.swap { opacity: 0; transform: translateY(8px); }
-
-  .btn {
-    font: inherit;
+    margin-top: 10px;
+    font-family: "Fredoka", system-ui, sans-serif;
     font-weight: 500;
-    border: none;
+    font-size: clamp(1.2rem, 5vw, 1.45rem);
+    color: var(--plum);
+  }
+  .choices { display: grid; gap: 12px; }
+  .choice {
+    font: 500 1.12rem/1.2 "Fredoka", system-ui, sans-serif;
+    color: var(--plum);
+    background: var(--white);
+    border: 2px solid var(--petal);
+    border-radius: 20px;
+    min-height: 62px;
+    padding: 14px 20px;
+    text-align: left;
     cursor: pointer;
-    border-radius: 999px;
-    padding: 12px 26px;
-    background: var(--accent);
-    color: #fff;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 6px 18px rgba(224, 69, 123, 0.3);
+    box-shadow: 0 4px 0 var(--petal);
+    transition: transform .12s ease, box-shadow .12s ease, background .2s;
+    animation: rise .6s ease backwards;
   }
-  .btn:hover { transform: translateY(-2px); }
-  .btn:active { transform: scale(0.97); }
-  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); box-shadow: none; }
-  .center { display: flex; justify-content: center; margin-top: 20px; gap: 12px; flex-wrap: wrap; }
+  .choice:nth-child(2) { animation-delay: .08s; }
+  .choice:nth-child(3) { animation-delay: .16s; }
+  .choice:nth-child(4) { animation-delay: .24s; }
+  .choice:active, .choice.picked { transform: translateY(4px); box-shadow: 0 0 0 var(--petal); background: var(--ground-2); }
+  .choice:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
 
-  /* letter */
-  .letter {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 36px 28px;
-    box-shadow: var(--shadow);
-    background-image: repeating-linear-gradient(transparent 0 35px, var(--line) 35px 36px);
-    background-position: 0 58px;
-    font-family: "Caveat", cursive;
-    font-size: 1.5rem;
-    line-height: 36px;
-    transform: rotate(-0.6deg);
+  /* ---------- page 2: the gift ---------- */
+  #gift { cursor: pointer; gap: 36px; }
+  .gift-line {
+    font-family: "Sniglet", "Fredoka", system-ui, sans-serif;
+    font-size: clamp(1.7rem, 7.5vw, 2.3rem);
+    color: var(--rose-deep);
+    text-align: center;
+    margin: 0;
+    transition: opacity .4s;
   }
-  .letter p + p { margin-top: 36px; }
-  .letter .sign { text-align: right; color: var(--accent); }
+  .tap-hint { font-size: .95rem; color: var(--plum-soft); margin: 0; transition: opacity .3s; }
 
-  /* question */
-  .question { text-align: center; }
-  .question-area {
-    position: relative;
-    height: 160px;
-    display: flex; justify-content: center; align-items: center; gap: 16px;
+  .box { position: relative; width: 190px; height: 190px; animation: wiggle 2.4s ease-in-out infinite; }
+  .box-body {
+    position: absolute; left: 10px; right: 10px; bottom: 0; height: 130px;
+    background: var(--rose);
+    border-radius: 10px 10px 16px 16px;
+    box-shadow: inset 0 -10px 0 rgba(0,0,0,.08);
   }
-  #noBtn { position: relative; transition: left 0.2s, top 0.2s; }
-  .answer {
-    font-family: "Fraunces", serif;
-    font-size: 1.6rem;
-    color: var(--accent);
-    display: none;
-    animation: pop 0.5s ease;
+  .box-body::before {             /* vertical ribbon */
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 30px;
+    transform: translateX(-50%); background: var(--ribbon);
   }
-  @keyframes pop { from { transform: scale(0.6); opacity: 0; } }
+  .lid {
+    position: absolute; left: 0; right: 0; top: 30px; height: 44px;
+    background: var(--rose-deep);
+    border-radius: 10px;
+    transform-origin: 15% 100%;
+    transition: transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .5s;
+    z-index: 2;
+  }
+  .lid::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 30px;
+    transform: translateX(-50%); background: var(--ribbon);
+  }
+  .bow { position: absolute; left: 50%; bottom: 100%; width: 0; height: 0; }
+  .bow i {
+    position: absolute; bottom: -6px; width: 46px; height: 34px;
+    border: 9px solid var(--ribbon); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: transparent;
+  }
+  .bow i:first-child { right: -2px; transform: rotate(-22deg); }
+  .bow i:last-child  { left: -2px;  transform: rotate(22deg); }
+  .bow b { position: absolute; left: -9px; bottom: -8px; width: 18px; height: 16px; border-radius: 6px; background: var(--ribbon); }
 
-  footer { text-align: center; color: var(--ink-soft); font-size: 0.9rem; padding-top: 40px; }
-
-  .theme-toggle {
-    position: fixed; top: 14px; right: 14px; z-index: 5;
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 1px solid var(--line); background: var(--card); color: var(--ink);
-    cursor: pointer; font-size: 1.1rem;
+  .box.open { animation: none; }
+  .box.open .lid { transform: translate(-50px, -110px) rotate(-38deg); opacity: 0; }
+  .box.gone { transition: transform .45s ease-in, opacity .45s ease-in; transform: scale(.2); opacity: 0; }
+  @keyframes wiggle {
+    0%, 70%, 100% { transform: rotate(0); }
+    75% { transform: rotate(-5deg); } 80% { transform: rotate(5deg); }
+    85% { transform: rotate(-3deg); } 90% { transform: rotate(3deg); }
   }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s; }
-  .reveal.in { opacity: 1; transform: none; }
+  /* kissing kitten */
+  .kiss {
+    position: fixed; left: 50%; top: 50%;
+    width: min(66vw, 300px);
+    transform: translate(-50%, 110vh);
+    transition: transform 1.3s cubic-bezier(.2,.9,.3,1.08);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .kiss.up { transform: translate(-50%, -50%); }
+  .kiss img { display: block; width: 100%; border-radius: 26px; box-shadow: 0 16px 40px rgba(194,69,111,.3); }
+
+  /* dancing cats in the corners */
+  .dancer {
+    position: fixed; width: min(24vw, 130px); z-index: 2; pointer-events: none;
+    opacity: 0; transform: scale(.4); transition: opacity .5s, transform .6s cubic-bezier(.3,1.6,.5,1);
+  }
+  .dancer img { display: block; width: 100%; border-radius: 18px; }
+  .dancer.show { opacity: 1; transform: scale(1); }
+  .dancer.tl { top: calc(env(safe-area-inset-top, 0px) + 12px); left: 12px; }
+  .dancer.tr { top: calc(env(safe-area-inset-top, 0px) + 12px); right: 12px; }
+  .dancer.bl { bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); left: 12px; }
+  .dancer.br { bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); right: 12px; }
+  /* the dancing kitten has a white background: multiply lets the pink show through */
+  .dancer { mix-blend-mode: multiply; }
+  .dancer img { transform-origin: 50% 90%; animation: bop .45s ease-in-out infinite alternate; }
+  .dancer.tr img, .dancer.br img { animation-name: bopFlip; animation-delay: .22s; }
+  @keyframes bop     { from { transform: rotate(-10deg) translateY(0); }  to { transform: rotate(10deg) translateY(-6px); } }
+  @keyframes bopFlip { from { transform: scaleX(-1) rotate(-10deg) translateY(0); } to { transform: scaleX(-1) rotate(10deg) translateY(-6px); } }
+  /* the kissing cat leans in for a smooch, over and over */
+  .kiss.up img { animation: leanIn 1.4s ease-in-out .9s infinite; }
+  @keyframes leanIn { 0%, 55%, 100% { transform: scale(1); } 30% { transform: scale(1.1) rotate(-2deg); } }
+
+  /* stand-ins until the real GIFs are uploaded */
+  .standin { display: grid; place-items: center; aspect-ratio: 1; line-height: 1; }
+  .kiss .standin { font-size: min(40vw, 180px); animation: smooch 1s ease-in-out infinite; }
+  .dancer .standin { font-size: min(14vw, 70px); animation: boogie .6s ease-in-out infinite alternate; }
+  @keyframes smooch { 50% { transform: scale(1.1) rotate(-4deg); } }
+  @keyframes boogie { from { transform: rotate(-14deg) translateY(0); } to { transform: rotate(14deg) translateY(-8px); } }
+
+  /* hearts */
+  .heart {
+    position: fixed; z-index: 1; pointer-events: none; line-height: 1;
+    animation: heartPop var(--dur, 3.2s) ease-out forwards;
+  }
+  @keyframes heartPop {
+    0%   { opacity: 0; transform: translateY(20px) scale(.3) rotate(var(--rot, 0deg)); }
+    20%  { opacity: 1; transform: translateY(0) scale(1.1) rotate(var(--rot, 0deg)); }
+    30%  { transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
+    100% { opacity: 0; transform: translateY(-70px) scale(.9) rotate(var(--rot, 0deg)); }
+  }
+
+  .again {
+    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 22px); z-index: 4;
+    transform: translateX(-50%);
+    font: 500 1rem "Fredoka", system-ui, sans-serif;
+    color: var(--rose-deep); background: var(--white);
+    border: 2px solid var(--petal); border-radius: 999px;
+    padding: 10px 20px; cursor: pointer;
+    opacity: 0; transition: opacity .6s;
+  }
+  .again.show { opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    .heart, .scroll-hint { animation: none; display: none; }
-    .reveal { opacity: 1; transform: none; }
+    .box, .choice, .kiss .standin, .dancer .standin, .kiss.up img, .dancer img { animation: none; }
+    .kiss, .lid, .dancer { transition-duration: .01s; }
   }
-  @media (max-width: 420px) {
-    .counter { grid-template-columns: repeat(2, 1fr); }
+
+  /* iPad / Mac: a little more room */
+  @media (min-width: 700px) {
+    .box { transform: scale(1.3); }
+    .box.gone { transform: scale(.25); }
+    .greet { max-width: 460px; }
   }
 </style>
+
 </head>
 <body>
-<div id="hearts" aria-hidden="true"></div>
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☾</button>
-
-<main>
-  <section class="hero">
-    <div class="eyebrow">hey you,</div>
-    <h1>Hi, <em id="herName">Beautiful</em></h1>
-    <p id="tagline">I made you a little corner of the internet. Scroll down ♡</p>
-    <a class="scroll-hint" href="#together">↓</a>
-  </section>
-
-  <section id="together" class="reveal">
-    <h2>Us, so far</h2>
-    <div class="counter">
-      <div><b id="cDays">0</b><span>days</span></div>
-      <div><b id="cHours">0</b><span>hours</span></div>
-      <div><b id="cMins">0</b><span>minutes</span></div>
-      <div><b id="cSecs">0</b><span>seconds</span></div>
+<section class="screen" id="hello">
+  <div class="greet">
+    <h1>Hello Praebooboo!,<span>how are you feeling todayy</span></h1>
+    <div class="choices" role="group" aria-label="How are you feeling?">
+      <button class="choice" id="c1" type="button">feeling happyyyyyyyy 😆</button>
+      <button class="choice" id="c2" type="button">Missing youuuu 🥺</button>
+      <button class="choice" id="c3" type="button">want to cuddle 😳</button>
+      <button class="choice" id="c4" type="button">Sad day 😢</button>
     </div>
-    <p class="since" id="sinceText"></p>
-  </section>
+  </div>
+</section>
 
-  <section class="reveal">
-    <h2>Reasons I adore you</h2>
-    <div class="reason-card">
-      <div class="reason-num" id="reasonNum">#1</div>
-      <div class="reason-text" id="reasonText"></div>
-    </div>
-    <div class="center">
-      <button class="btn" id="nextReason">Tell me another</button>
-    </div>
-  </section>
+<section class="screen away" id="gift" aria-label="Your gift. Tap to open.">
+  <p class="gift-line" id="giftLine">here, a gift you na</p>
+  <div class="box" id="box" aria-hidden="true">
+    <div class="lid"><div class="bow"><i></i><i></i><b></b></div></div>
+    <div class="box-body"></div>
+  </div>
+  <p class="tap-hint" id="hint">tap to open 🩷</p>
+</section>
 
-  <section class="reveal">
-    <h2>A little note</h2>
-    <div class="letter" id="letter"></div>
-  </section>
+<div class="kiss" id="kiss"><img src="kiss.jpg" alt="Kissing kitten"></div>
+<div class="dancer tl"><img src="dance.jpg" alt=""></div>
+<div class="dancer tr"><img src="dance.jpg" alt=""></div>
+<div class="dancer bl"><img src="dance.jpg" alt=""></div>
+<div class="dancer br"><img src="dance.jpg" alt=""></div>
 
-  <section class="question reveal">
-    <h2 id="questionText">Do you love me?</h2>
-    <div class="question-area" id="questionArea">
-      <button class="btn" id="yesBtn">Yes ♡</button>
-      <button class="btn ghost" id="noBtn">No</button>
-    </div>
-    <div class="answer" id="answer">I knew it. I love you too ♡</div>
-  </section>
-
-  <footer id="footer"></footer>
-</main>
+<button class="again" id="again" type="button" hidden>again 🩷</button>
 
 <script>
-  /* ============================================================
-     EDIT THIS PART — make it yours
-     ============================================================ */
-  const CONFIG = {
-    herName: "Beautiful",                 // her name or nickname
-    yourName: "Me",                       // how you sign off
-    togetherSince: "2025-02-14T00:00:00", // when you two started
-    tagline: "I made you a little corner of the internet. Scroll down ♡",
-    reasons: [
-      "The way you laugh at your own jokes before you finish them.",
-      "You make ordinary days feel like something worth remembering.",
-      "How you always know when something's off with me.",
-      "Your good-morning texts are my favorite notification.",
-      "You're the softest, strongest person I know.",
-      "The way you look at me when you think I'm not paying attention.",
-      "You make any place feel like home.",
-      "You're my favorite person to do absolutely nothing with.",
-      "Your hugs fix things words can't.",
-      "Honestly? Everything. I could keep going forever."
-    ],
-    letter: [
-      "Hey you,",
-      "I just wanted you to have something that's only yours. A place you can come back to whenever you need a reminder of how much you mean to me.",
-      "Thank you for being you. I'm so lucky I get to be yours.",
-    ],
-    question: "Do you love me?",
-    answer: "I knew it. I love you too ♡",
-  };
-  /* ============================================================ */
+  const $ = (s) => document.querySelector(s);
+  const hello = $("#hello"), gift = $("#gift"), box = $("#box");
+  const kiss = $("#kiss"), again = $("#again");
+  const dancers = document.querySelectorAll(".dancer");
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  const $ = (id) => document.getElementById(id);
-
-  // fill content
-  $("herName").textContent = CONFIG.herName;
-  $("tagline").textContent = CONFIG.tagline;
-  $("questionText").textContent = CONFIG.question;
-  $("answer").textContent = CONFIG.answer;
-  $("footer").textContent = `made with love, by ${CONFIG.yourName} ♡`;
-  document.title = `For ${CONFIG.herName}`;
-
-  const letter = $("letter");
-  CONFIG.letter.forEach((line) => {
-    const p = document.createElement("p");
-    p.textContent = line;
-    letter.appendChild(p);
-  });
-  const sign = document.createElement("p");
-  sign.className = "sign";
-  sign.textContent = `— always yours, ${CONFIG.yourName}`;
-  letter.appendChild(sign);
-
-  // together counter
-  const start = new Date(CONFIG.togetherSince);
-  $("sinceText").textContent = "since " + start.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
-  function tick() {
-    let diff = Math.max(0, Math.floor((Date.now() - start) / 1000));
-    $("cDays").textContent = Math.floor(diff / 86400).toLocaleString();
-    $("cHours").textContent = Math.floor((diff % 86400) / 3600);
-    $("cMins").textContent = Math.floor((diff % 3600) / 60);
-    $("cSecs").textContent = diff % 60;
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  // reasons
-  let idx = 0;
-  function showReason() {
-    const t = $("reasonText");
-    t.classList.add("swap");
-    setTimeout(() => {
-      t.textContent = CONFIG.reasons[idx];
-      $("reasonNum").textContent = `#${idx + 1}`;
-      t.classList.remove("swap");
-    }, 200);
-  }
-  $("reasonText").textContent = CONFIG.reasons[0];
-  $("nextReason").addEventListener("click", () => {
-    idx = (idx + 1) % CONFIG.reasons.length;
-    showReason();
-    burst(6);
+  // Until the GIFs are uploaded, show a cute emoji stand-in instead of a broken image.
+  document.querySelectorAll(".kiss img, .dancer img").forEach((img) => {
+    const swap = () => {
+      const s = document.createElement("div");
+      s.className = "standin";
+      s.textContent = img.closest(".kiss") ? "😽" : "🐈";
+      img.replaceWith(s);
+    };
+    if (img.complete && img.naturalWidth === 0) swap(); else img.addEventListener("error", swap);
   });
 
-  // the "No" button runs away
-  const noBtn = $("noBtn");
-  const area = $("questionArea");
-  function dodge() {
-    const a = area.getBoundingClientRect();
-    const b = noBtn.getBoundingClientRect();
-    const maxX = (a.width - b.width) / 2;
-    const maxY = (a.height - b.height) / 2;
-    noBtn.style.left = (Math.random() * 2 - 1) * maxX + "px";
-    noBtn.style.top = (Math.random() * 2 - 1) * maxY + "px";
-  }
-  noBtn.addEventListener("mouseenter", dodge);
-  noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodge(); }, { passive: false });
-  noBtn.addEventListener("click", (e) => { e.preventDefault(); dodge(); });
-
-  $("yesBtn").addEventListener("click", () => {
-    area.style.display = "none";
-    $("answer").style.display = "block";
-    burst(40);
+  // Page 1 → page 2 (every answer leads to the gift)
+  document.querySelectorAll(".choice").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      btn.classList.add("picked");
+      await wait(250);
+      hello.classList.add("away");
+      gift.classList.remove("away");
+    });
   });
 
-  // hearts
-  const heartsEl = $("hearts");
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function spawnHeart() {
-    if (reduced) return;
+  // Page 2: tap anywhere → lid opens → box disappears → kitten rises → hearts + dancing cats
+  let stage = "closed";
+  gift.addEventListener("click", async () => {
+    if (stage !== "closed") return;
+    stage = "opening";
+    $("#hint").style.opacity = 0;
+
+    box.classList.add("open");                 // 1. open the lid
+    await wait(900);
+
+    $("#giftLine").style.opacity = 0;
+    box.classList.add("gone");                 // 2. the box disappears
+    await wait(450);
+
+    kiss.classList.add("up");                  // 3. kitten rises to the middle
+    await wait(700);
+    dancers.forEach((d, i) => setTimeout(() => d.classList.add("show"), i * 150));
+    startHearts();
+
+    await wait(2500);
+    again.hidden = false;
+    requestAnimationFrame(() => again.classList.add("show"));
+    stage = "done";
+  });
+
+  // Hearts pop up all over the screen, leaving the middle clear for the kitten.
+  let heartTimer = null;
+  function heart() {
     const h = document.createElement("span");
     h.className = "heart";
-    h.textContent = Math.random() > 0.3 ? "♥" : "♡";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = 12 + Math.random() * 22 + "px";
-    const dur = 7 + Math.random() * 7;
-    h.style.animationDuration = dur + "s";
-    heartsEl.appendChild(h);
-    setTimeout(() => h.remove(), dur * 1000);
+    h.textContent = "🩷";
+    let x, y;
+    do { x = Math.random() * 92 + 2; y = Math.random() * 88 + 4; }
+    while ((x > 26 && x < 74 && y > 28 && y < 72) ||   // keep the centre clear
+           ((x < 30 || x > 70) && (y < 18 || y > 82)));  // and the dancing corners
+    h.style.left = x + "vw";
+    h.style.top = y + "vh";
+    h.style.fontSize = (18 + Math.random() * 26) + "px";
+    h.style.setProperty("--rot", (Math.random() * 40 - 20) + "deg");
+    h.style.setProperty("--dur", (2.6 + Math.random() * 1.6) + "s");
+    document.body.appendChild(h);
+    h.addEventListener("animationend", () => h.remove());
   }
-  function burst(n) {
-    for (let i = 0; i < n; i++) setTimeout(spawnHeart, i * 40);
+  function startHearts() {
+    for (let i = 0; i < 18; i++) setTimeout(heart, i * 60);
+    heartTimer = setInterval(heart, 220);
   }
-  setInterval(spawnHeart, 900);
-  burst(8);
 
-  // reveal on scroll
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
-  // theme toggle
-  const root = document.documentElement;
-  function currentDark() {
-    const t = root.getAttribute("data-theme");
-    if (t) return t === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  }
-  function syncIcon() { $("themeToggle").textContent = currentDark() ? "☀" : "☾"; }
-  try { const saved = localStorage.getItem("theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
-  syncIcon();
-  $("themeToggle").addEventListener("click", () => {
-    const next = currentDark() ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try { localStorage.setItem("theme", next); } catch (e) {}
-    syncIcon();
+  // Start over
+  again.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    clearInterval(heartTimer);
+    again.classList.remove("show");
+    kiss.classList.remove("up");
+    dancers.forEach((d) => d.classList.remove("show"));
+    gift.classList.add("away");
+    await wait(500);
+    again.hidden = true;
+    box.classList.remove("open", "gone");
+    $("#giftLine").style.opacity = 1;
+    $("#hint").style.opacity = 1;
+    document.querySelectorAll(".choice").forEach((b) => b.classList.remove("picked"));
+    hello.classList.remove("away");
+    stage = "closed";
   });
 </script>
 </body>
