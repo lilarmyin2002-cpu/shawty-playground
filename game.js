@@ -16,6 +16,9 @@ const BOUNDS = { x0: 20, y0: 110, x1: WORLD_W - 20, y1: WORLD_H - 10 };
 // Sprite sheets: 40x60 frames, feet at the bottom centre.
 // Rows: 0 = down, 1 = right (mirrored for left), 2 = up.
 // Boy row 3: crouch-pick, hold, walk-holding, give.
+// How often (in seconds) the boy goes to pick a flower for her.
+const FLOWER_EVERY = 30;
+
 const FRAME_W = 40;
 const FRAME_H = 60;
 const ROW = { down: 0, right: 1, left: 1, up: 2 };
@@ -285,7 +288,7 @@ class Boy extends Character {
     super(sheet, x, y, 48);
     this.state = 'wander';
     this.timer = 0;
-    this.urge = between(5, 9); // seconds until he wants to pick a flower
+    this.urge = FLOWER_EVERY; // seconds until he wants to pick a flower
     this.target = null;
     this.flower = null; // flower being fetched or carried
     this.carrying = null;
@@ -311,11 +314,10 @@ class Boy extends Character {
           break;
         }
         if (!this.target) {
-          // Mostly hang around near the girl, sometimes explore.
-          const anchor = rand() < 0.7 ? girl : { x: between(BOUNDS.x0, BOUNDS.x1), y: between(BOUNDS.y0, BOUNDS.y1) };
+          // Stroll to a random spot anywhere in the meadow.
           this.target = {
-            x: clamp(anchor.x + between(-120, 120), BOUNDS.x0, BOUNDS.x1),
-            y: clamp(anchor.y + between(-70, 70), BOUNDS.y0, BOUNDS.y1),
+            x: between(BOUNDS.x0 + 20, BOUNDS.x1 - 20),
+            y: between(BOUNDS.y0 + 10, BOUNDS.y1 - 10),
           };
         }
         if (this.walkTo(this.target.x, this.target.y, dt)) {
@@ -383,7 +385,7 @@ class Boy extends Character {
         }
         if (this.timer > 1.6) {
           this.state = 'wander';
-          this.urge = between(7, 14);
+          this.urge = FLOWER_EVERY;
           this.pause = between(0.5, 1.5);
           this.target = null;
         }
