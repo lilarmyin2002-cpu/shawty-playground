@@ -15,6 +15,16 @@ python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
+Or run it with Streamlit:
+
+```sh
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+To put it online, deploy `streamlit_app.py` on
+[Streamlit Community Cloud](https://share.streamlit.io).
+
 Controls: **WASD** (or arrow keys) to walk.
 
 ## Files
@@ -22,6 +32,7 @@ Controls: **WASD** (or arrow keys) to walk.
 - `index.html`, `game.js`: the game (plain JavaScript, no build step).
 - `assets/girl.png`, `assets/boy.png`: game-ready sprite sheets (40x60 frames).
 - `assets/source/`: the original AI-generated character art.
+- `streamlit_app.py`: Streamlit wrapper that embeds the game.
 - `tools/build_sprites.py`: turns the green-screen sheets in `assets/source/`
   into the game sprite sheets. Re-run it after replacing the source art
   (`pip install pillow numpy`, then `python3 tools/build_sprites.py`).

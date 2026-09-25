@@ -436,6 +436,9 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => keys.delete(KEYMAP[e.code]));
 addEventListener('blur', () => keys.clear());
+// When embedded (e.g. in Streamlit) the game lives in an iframe and only
+// hears the keyboard once it has focus.
+canvas.addEventListener('pointerdown', () => window.focus());
 
 class World {
   constructor(images) {
